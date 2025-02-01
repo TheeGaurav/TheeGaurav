@@ -1,0 +1,52 @@
+# Depth Estimation for Clinker Volume Calculation
+
+## Overview
+
+This project estimates the volume and weight of stored clinker in a railway wagon using depth estimation techniques. The approach utilizes Intel's MiDaS model for monocular depth estimation to compare depth maps of an empty and a filled wagon. By computing the depth difference, we estimate the material volume and convert it to weight using clinker density.
+
+## Approach Used
+
+1. **Depth Estimation Model**: The MiDaS model (MiDaS\_small for efficiency) is used to generate depth maps from video frames.
+2. **Preprocessing**:
+   - Convert frames to RGB.
+   - Resize to 256x256 for faster processing.
+   - Normalize and transform frames for model input.
+3. **Video Processing**:
+   - Process every 5th frame to reduce computational load.
+   - Compute the average depth map from multiple frames.
+   - Save depth maps for reuse.
+4. **Depth Difference Calculation**:
+   - Compute the difference between the filled and empty wagon depth maps.
+   - Convert depth difference from pixels to meters using wagon dimensions.
+5. **Volume and Weight Estimation**:
+   - Calculate volume using real-world dimensions.
+   - Estimate weight using clinker density (1350 kg/m³).
+6. **Visualization & Results**:
+   - Display depth maps of empty, filled, and material depth difference.
+   - Print estimated volume and weight.
+
+## Installation & Dependencies
+
+Ensure you have the following dependencies installed:
+
+```bash
+pip install torch torchvision opencv-python numpy matplotlib
+```
+
+## Running the Code
+
+1. Place your empty and filled wagon videos in the specified paths.
+2. Run the script to process the videos and generate depth maps.
+3. The script will output the estimated volume and weight.
+
+## Output
+
+- Depth maps of the empty and filled wagons.
+- Estimated volume in cubic meters.
+- Estimated weight in metric tons.
+
+
+- The model requires a CUDA-compatible GPU for faster processing (optional but recommended).
+- The accuracy depends on video quality and proper wagon calibration.
+- Depth estimation is relative; hence, real-world calibration is essential for accurate measurements.
+
